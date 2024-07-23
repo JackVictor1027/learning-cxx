@@ -7,7 +7,7 @@
 // 这些标识符不需要前缀，可以直接引用。
 // 因此 `enum` 定义会污染命名空间。
 enum ColorEnum : unsigned char {
-    COLOR_RED = 31,
+    COLOR_RED =31,
     COLOR_GREEN,
     COLOR_YELLOW,
     COLOR_BLUE,
@@ -18,9 +18,9 @@ enum ColorEnum : unsigned char {
 // 作用域枚举型可以避免命名空间污染，并提供类型安全保证。
 enum class Color : int {
     Red = COLOR_RED,
-    Green,
-    Yellow,
-    Blue,
+    Green = COLOR_GREEN,
+    Yellow = COLOR_YELLOW,
+    Blue = COLOR_BLUE,
 };
 
 ColorEnum convert_by_pun(Color c) {
@@ -34,6 +34,23 @@ ColorEnum convert_by_pun(Color c) {
 
     TypePun pun;
     // TODO: 补全类型双关转换
+    switch (c)
+    {
+    case Color::Red:
+        pun.c=(Color)ColorEnum::COLOR_RED;
+        break;
+    case Color::Green:
+        pun.c=(Color)ColorEnum::COLOR_GREEN;
+        break;
+    case Color::Yellow:
+        pun.c=(Color)ColorEnum::COLOR_YELLOW;
+        break;
+    case Color::Blue:
+        pun.c=(Color)ColorEnum::COLOR_BLUE;
+        break;
+    default:
+        break;
+    }
 
     return pun.e;
 }
