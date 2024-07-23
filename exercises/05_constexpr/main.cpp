@@ -1,14 +1,15 @@
 #include "../exercise.h"
 
 constexpr unsigned long long fibonacci(int i) {
-    switch (i) {
-        case 0:
-            return 0;
-        case 1:
-            return 1;
-        default:
-            return fibonacci(i - 1) + fibonacci(i - 2);
+    if(i<2)return i;
+    unsigned long long a=0;
+    unsigned long long b=1;
+    for(int j=2;j<=i;j++){
+        unsigned long long temp=a+b;
+        a=b;
+        b=temp;
     }
+    return b;
 }
 
 int main(int argc, char **argv) {
