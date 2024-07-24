@@ -8,11 +8,11 @@
 int main(int argc, char **argv) {
     {
         std::vector<int> vec{1, 2, 3, 4, 5};
-        ASSERT(vec.size() == ?, "Fill in the correct value.");
+        ASSERT(vec.size() == 5, "Fill in the correct value.");
         // THINK: `std::vector` 的大小是什么意思？与什么有关？
-        ASSERT(sizeof(vec) == ?, "Fill in the correct value.");
+        ASSERT(sizeof(vec) == 20, "Fill in the correct value.");
         int ans[]{1, 2, 3, 4, 5};
-        ASSERT(std::memcmp(vec.?, ans, sizeof(ans)) == 0, "Fill in the correct values.");
+        ASSERT(std::memcmp(vec, ans, sizeof(ans)) == 0, "Fill in the correct values.");
     }
     {
         std::vector<double> vec{1, 2, 3, 4, 5};
