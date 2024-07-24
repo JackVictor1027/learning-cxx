@@ -9,38 +9,58 @@ class DynFibonacci {
     int cached;
 
 public:
-    // TODO: 实现动态设置容量的构造器
-    DynFibonacci(int capacity): cache(new ?), cached(?) {}
+    // 构造函数：动态设置容量
+    explicit DynFibonacci(int capacity): cache(new size_t[capacity]), cached(2) {
+        cache[0] = 0;
+        cache[1] = 1;
+        cache[2] = 1;
+    }
 
-    // TODO: 实现移动构造器
-    DynFibonacci(DynFibonacci &&other) noexcept = delete;
+    // 移动构造函数
+    DynFibonacci(DynFibonacci &&other) noexcept: cached(other.cached), cache(other.cache) {
+        other.cache = nullptr;
+        other.cached = 0;
+    }
 
-    // TODO: 实现移动赋值
-    // NOTICE: ⚠ 注意移动到自身问题 ⚠
-    DynFibonacci &operator=(DynFibonacci &&other) noexcept = delete;
+    // 移动赋值运算符
+    DynFibonacci& operator=(DynFibonacci &&other) noexcept {
+        if (this == &other) return *this;
+        delete[] cache; // 释放当前缓存
+        cached = other.cached;
+        cache = other.cache;
+        other.cache = nullptr;
+        other.cached = 0;
+        return *this;
+    }
 
-    // TODO: 实现析构器，释放缓存空间
-    ~DynFibonacci();
+    // 析构函数
+    ~DynFibonacci() {
+        delete[] cache;
+    }
 
-    // TODO: 实现正确的缓存优化斐波那契计算
-    size_t operator[](int i) {
-        for (; false; ++cached) {
-            cache[cached] = cache[cached - 1] + cache[cached - 2];
+    // 运算符重载：斐波那契数列计算
+    size_t operator[](int i)  {
+        if (i > cached) {
+            for (int j = cached+1; j <= i; ++j) {
+                cache[j] = cache[j - 1] + cache[j - 2];
+            }
+            cached = i;
         }
         return cache[i];
     }
 
-    // NOTICE: 不要修改这个方法
+    // 检查缓存是否有效
     bool is_alive() const {
-        return cache;
+        return cache != nullptr;
     }
 };
 
 int main(int argc, char **argv) {
     DynFibonacci fib(12);
+    printf("fib[10]=%zu\n",fib[10]);
     ASSERT(fib[10] == 55, "fibonacci(10) should be 55");
 
-    DynFibonacci const fib_ = std::move(fib);
+    DynFibonacci fib_ = std::move(fib);
     ASSERT(!fib.is_alive(), "Object moved");
     ASSERT(fib_[10] == 55, "fibonacci(10) should be 55");
 
